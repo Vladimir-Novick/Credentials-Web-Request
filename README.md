@@ -8,7 +8,7 @@ Using : CredentialsWebRequest :
             credentialsWebRequest.setCredentionalCache(InterfaceURL, userName, password);
             string ret = credentialsWebRequest.RepeatRequest(dataURL1);
 			
-		    string ret = credentialsWebRequest.RepeatRequest(dataURL2);
+		    string ret2 = credentialsWebRequest.RepeatRequest(dataURL2);
 			
 using : SoapWebReguest
 
