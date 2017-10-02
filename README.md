@@ -1,5 +1,5 @@
 # NET-CORE2-Credentional-Web-Request
-Credentional Web Request with Credential Cache for NET Core 2
+Web Request with Credential Cache for NET Core 2
 
 Using : CredentialsWebRequest :
 
