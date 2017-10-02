@@ -13,7 +13,7 @@ namespace SGcombo.WebUtils
 ////////////////////////////////////////////////////////////////////////////
 //	Copyright 2017 : Vladimir Novick    https://www.linkedin.com/in/vladimirnovick/  
 //        
-//             https://github.com/Vladimir-Novick/NET-CORE-2-Credentional-Web-Reguest
+//             https://github.com/Vladimir-Novick/NET-CORE-2-Credentional-Web-Request
 //
 //    NO WARRANTIES ARE EXTENDED. USE AT YOUR OWN RISK. 
 //
@@ -25,7 +25,7 @@ namespace SGcombo.WebUtils
     /// <summary>
     ///   Soap Reguests with save cookies
     /// </summary>
-    public class SoapWebReguest
+    public class SoapWebRequest
     {
         /// <summary>
         ///    Send request with waiting correct time

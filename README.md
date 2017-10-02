@@ -1,5 +1,5 @@
-# NET-CORE-2-Credentional-Web-Reguest
-Credentional Web Reguest with Credential Cache for NET Core 2
+# NET-CORE2-Credentional-Web-Request
+Credentional Web Request with Credential Cache for NET Core 2
 
 Using : CredentialsWebRequest :
 
@@ -10,14 +10,14 @@ Using : CredentialsWebRequest :
 			
 		    string ret2 = credentialsWebRequest.RepeatRequest(dataURL2);
 			
-using : SoapWebReguest
+using : SoapWebRequest
 
-          var soapWebReguest =  new SoapWebReguest();
-		  soapWebReguest.Execute(loginURL, strSoupLoginReguest);
+          var soapWebRequest =  new SoapWebRequest();
+		  soapWebReguest.Execute(loginURL, strSoupLoginRequest);
 		  
-		   string ret1 = soapWebReguest.Execute(getDataURL, strSoapGetDataReguest1);
+		   string ret1 = soapWebReguest.Execute(getDataURL, strSoapGetDataRequest1);
 		   
-		   string ret2 = soapWebReguest.Execute(getDataURL, strSoapGetDataReguest2);
+		   string ret2 = soapWebReguest.Execute(getDataURL, strSoapGetDataRequest2);
 		  
 		  
 
