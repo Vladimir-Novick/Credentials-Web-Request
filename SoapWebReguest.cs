@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Xml;
 
 namespace SGcombo.WebUtils
@@ -26,65 +27,84 @@ namespace SGcombo.WebUtils
     /// </summary>
     public class SoapWebReguest
     {
-
-
-        public string SendHttpReq(string sUrl, string sQuery)
+        /// <summary>
+        ///    Send request with waiting correct time
+        /// </summary>
+        /// <param name="sUrl">string - URL</param>
+        /// <param name="sQuery"></param>
+        /// <param name="wait"></param>
+        /// <param name="WaitCount"></param>
+        /// <param name="WaitTime"></param>
+        /// <returns></returns>
+        public string SendHttpReq(string sUrl, string sQuery,bool wait = true, int WaitCount = 20,int WaitTime = 10)
+        {
+            String response = SendHttpReq_(sUrl, sQuery);
+            if (!wait) return response;
+            int currentCount = 0;
+            while (response.Length == 0 && currentCount < WaitCount)
+            {
+                Thread.Sleep(WaitTime * 1000);
+                Console.WriteLine($"Wait {currentCount} -> {sUrl}");
+                currentCount++;
+                response = SendHttpReq_(sUrl, sQuery);
+            }
+            return response;
+        }
+        private string SendHttpReq_(string sUrl, string sQuery)
         {
             string sRes = string.Empty;
             // http request
             string lcUrl = sUrl;
             string lcHtml = string.Empty;
-        
-
-
-            //
-            string url = sUrl;
-            //url = sUrl;
-            WebRequest req = WebRequest.Create(url);
-            req.Timeout = 560000;
-            req.ContentType = "application/x-www-form-urlencoded";
-            req.Method = "POST";
-
-            string sParams = string.Empty;
-
-            sParams = sQuery;
-            byte[] bytes = Encoding.UTF8.GetBytes(sParams);
-            Stream os = null;
-            try
-            { // send the Post
-                req.ContentLength = bytes.Length;   //Count bytes to send
-                os = req.GetRequestStream();
-                os.Write(bytes, 0, bytes.Length);         //Send it
-            }
-            catch (WebException ex)
-            {
-
-            }
-            finally
-            {
-                if (os != null)
-                {
-                    os.Close();
-                }
-            }
 
             try
-            { // get the response
+            {
 
-                using (WebResponse webResponse = req.GetResponse())
-                {
-                    if (webResponse == null)
+                //
+                string url = sUrl;
+                //url = sUrl;
+                var req = (HttpWebRequest)WebRequest.Create(url);
+                req.Timeout = 560000;
+                req.ContentType = "application/x-www-form-urlencoded";
+                req.Method = "POST";
+                req.CookieContainer = CookieContainer;
+                string sParams = string.Empty;
+
+                sParams = sQuery;
+                byte[] bytes = Encoding.UTF8.GetBytes(sParams);
+
+                try
+                { // send the Post
+                    req.ContentLength = bytes.Length;   //Count bytes to send
+                    using (Stream os = req.GetRequestStream())
                     {
-                        return null;
+                        os.Write(bytes, 0, bytes.Length);
                     }
-                    StreamReader sr = new StreamReader(webResponse.GetResponseStream());
-                    lcHtml = sr.ReadToEnd().Trim();
                 }
-            }
-            catch (WebException ex)
-            {
+                catch (WebException ex)
+                {
 
-            }
+                }
+
+
+                try
+                { // get the response
+
+                    using (WebResponse webResponse = req.GetResponse())
+                    {
+                        if (webResponse == null)
+                        {
+                            return null;
+                        }
+                        StreamReader sr = new StreamReader(webResponse.GetResponseStream());
+                        lcHtml = sr.ReadToEnd().Trim();
+                    }
+                }
+                catch (WebException ex)
+                {
+
+                }
+            } catch (Exception) { }
             return lcHtml;
         }
 
